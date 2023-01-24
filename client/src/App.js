@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './Calendar.css';
 import moment from 'moment/moment';
 import 'moment/locale/fr';
+import NoMatch from './components/NoMatch';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Planning from './pages/Planning'
 function App() {
 
   const [value, setValue] = useState(new Date());
+  let redirection = false
   let currentDay =
     moment(value).locale('fr').format('dddd') +
     ' ' +
     moment(value).locale('fr').format('LL');
+
+  let formattedDate = moment(value).format('DD-MM-YYYY')
 
   useEffect(() => {
     currentDay =
@@ -25,10 +29,10 @@ function App() {
 
   function onChange(nextValue) {
     setValue(nextValue);
+    redirection = true
   }
 
   return (
-    
     <BrowserRouter>
       <div className='container'>
       <main>
@@ -36,10 +40,11 @@ function App() {
         <Calendar value={value} onChange={onChange} />
       <Navigation />
       </section>
-      
+      {redirection && <Navigate replace to='/' />}
         <Routes>
-          <Route path='/' element={<Home currentDay={currentDay} />} ></Route>
-          <Route path='/planning' element={<Planning/>}></Route>
+          <Route path='/' element={<Home currentDay={currentDay} formattedDate={formattedDate} />} ></Route>
+          <Route path='/planning/:planningId' element={<Planning currentDay={currentDay}/>}></Route>
+          <Route path='*' element={<NoMatch />}></Route>
         </Routes>
         </main>
       </div>

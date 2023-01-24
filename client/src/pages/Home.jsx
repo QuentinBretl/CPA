@@ -1,14 +1,15 @@
 import React from 'react';
 import Actis from '../components/Actis';
-import Escalade from '../assets/escalade.svg'
 
-const Home = ({currentDay}) => {
+const Home = ({currentDay, formattedDate}) => {
+  
+
   return (
    
       <section className='content'>
         <div className='planning'>
           <div className='heading'>{currentDay}</div>
-          <Actis />
+          <Actis formattedDate={formattedDate}/>
         </div>
       </section>
   );
