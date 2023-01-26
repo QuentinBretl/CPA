@@ -45,7 +45,7 @@ function Actis({formattedDate}) {
         </article>
         <article>
           <h3>CIRQUE</h3>
-          <Link className='link-acti' to={`/planning/cirque-${formattedDate}`}>
+          <Link className='link-acti' to={`/planning?acti=cirque&date=${formattedDate}`}>
             <div className='activity' id='cirque'>
               <img id='img-cirque' src={Escalade} alt="cirque" />
             </div>

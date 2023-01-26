@@ -43,7 +43,7 @@ function App() {
       {redirection && <Navigate replace to='/' />}
         <Routes>
           <Route path='/' element={<Home currentDay={currentDay} formattedDate={formattedDate} />} ></Route>
-          <Route path='/planning/:planningId' element={<Planning currentDay={currentDay}/>}></Route>
+          <Route path='/planning' element={<Planning currentDay={currentDay}/>}></Route>
           <Route path='*' element={<NoMatch />}></Route>
         </Routes>
         </main>
