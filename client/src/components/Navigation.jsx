@@ -7,7 +7,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { getDoc, doc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import logoSVG from '../assets/logo.svg';
 
@@ -19,13 +19,25 @@ function Navigation() {
 
   const [login, setLogin] = useState(false);
   const [user, setUser] = useState(null);
+  const [name, setName] = useState("")
 
   const auth = getAuth();
   useEffect(() => {
     if (login) {
       setUser(auth.currentUser);
-      console.log(auth.currentUser);
+      
+      const getName = async () => {
+        const usersRef = collection(db, 'users')
+        const q = query(usersRef, where("uid", "==", auth.currentUser.uid))
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        setName(doc.data().name);
+      })
+
+      
     }
+    getName();
+  }
   }, [login]);
 
   const { username, password } = formData;
@@ -53,17 +65,20 @@ function Navigation() {
 
       if (userCredential.user) {
         setLogin(true);
-        console.log('connecté !');
         navigate('/');
       }
+
+
+
     } catch (error) {
       toast.error('Identifiant et/ou mot de passe incorrecte(s) !');
     }
   };
 
+  
   return user ? (
     <>
-      <div className='login'>connecté !</div>
+      <div className='login'>Bienvenue {name}.</div>
       <img className='logo' src={logoSVG} alt='logo' />
     </>
   ) : (

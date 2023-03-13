@@ -10,6 +10,7 @@ import NoMatch from './components/NoMatch';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Planning from './pages/Planning';
+
 function App() {
   const [value, setValue] = useState(new Date());
   let redirection = false;
