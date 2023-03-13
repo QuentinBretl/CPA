@@ -4,20 +4,21 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './Calendar.css';
 import moment from 'moment/moment';
 import 'moment/locale/fr';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import NoMatch from './components/NoMatch';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
-import Planning from './pages/Planning'
+import Planning from './pages/Planning';
 function App() {
-
   const [value, setValue] = useState(new Date());
-  let redirection = false
+  let redirection = false;
   let currentDay =
     moment(value).locale('fr').format('dddd') +
     ' ' +
     moment(value).locale('fr').format('LL');
 
-  let formattedDate = moment(value).format('DD-MM-YYYY')
+  let formattedDate = moment(value).format('DD-MM-YYYY');
 
   useEffect(() => {
     currentDay =
@@ -29,26 +30,37 @@ function App() {
 
   function onChange(nextValue) {
     setValue(nextValue);
-    redirection = true
+    redirection = true;
   }
 
   return (
-    <BrowserRouter>
-      <div className='container'>
-      <main>
-      <section className='navigation'>
-        <Calendar value={value} onChange={onChange} />
-      <Navigation />
-      </section>
-      {redirection && <Navigate replace to='/' />}
-        <Routes>
-          <Route path='/' element={<Home currentDay={currentDay} formattedDate={formattedDate} />} ></Route>
-          <Route path='/planning' element={<Planning currentDay={currentDay}/>}></Route>
-          <Route path='*' element={<NoMatch />}></Route>
-        </Routes>
-        </main>
-      </div>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <div className='container'>
+          <main>
+            <section className='navigation'>
+              <Calendar value={value} onChange={onChange} />
+              <Navigation />
+            </section>
+            {redirection && <Navigate replace to='/' />}
+            <Routes>
+              <Route
+                path='/'
+                element={
+                  <Home currentDay={currentDay} formattedDate={formattedDate} />
+                }
+              ></Route>
+              <Route
+                path='/planning'
+                element={<Planning currentDay={currentDay} />}
+              ></Route>
+              <Route path='*' element={<NoMatch />}></Route>
+            </Routes>
+          </main>
+        </div>
+      </BrowserRouter>
+      <ToastContainer position='bottom-right' theme='dark' />
+    </>
   );
 }
 

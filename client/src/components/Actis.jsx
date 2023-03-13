@@ -11,7 +11,10 @@ function Actis({ formattedDate }) {
       <div className='list'>
         <article>
           <h3>KAYAK</h3>
-          <Link className='link-acti' to={`/planning/kayak-${formattedDate}`}>
+          <Link
+            className='link-acti'
+            to={`/planning?acti=kayak&date=${formattedDate}`}
+          >
             <div className='activity' id='kayak'>
               <img id='img-kayak' src={Escalade} alt='kayak' />
             </div>
@@ -24,7 +27,7 @@ function Actis({ formattedDate }) {
           <h3>ESCALADE</h3>
           <Link
             className='link-acti'
-            to={`/planning/escalade-${formattedDate}`}
+            to={`/planning?acti=escalade&date=${formattedDate}`}
           >
             <div className='activity' id='escalade'>
               <img id='img-escalade' src={Escalade} alt='escalade' />
@@ -36,7 +39,10 @@ function Actis({ formattedDate }) {
         </article>
         <article>
           <h3>TIR A L'ARC</h3>
-          <Link className='link-acti' to={`/planning/tal-${formattedDate}`}>
+          <Link
+            className='link-acti'
+            to={`/planning?acti=tal&date=${formattedDate}`}
+          >
             <div className='activity' id='tal'>
               <img id='img-tal' src={Tal} alt='tal' />
             </div>
@@ -47,7 +53,10 @@ function Actis({ formattedDate }) {
         </article>
         <article>
           <h3>ACCROBRANCHE</h3>
-          <Link className='link-acti' to={`/planning/pah-${formattedDate}`}>
+          <Link
+            className='link-acti'
+            to={`/planning?acti=pah&date=${formattedDate}`}
+          >
             <div className='activity' id='pah'>
               <img id='img-pah' src={Escalade} alt='pah' />
             </div>
