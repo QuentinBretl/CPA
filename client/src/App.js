@@ -6,10 +6,12 @@ import moment from 'moment/moment';
 import 'moment/locale/fr';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from './components/PrivateRoute';
 import NoMatch from './components/NoMatch';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Planning from './pages/Planning';
+import Params from './pages/Params';
 
 function App() {
   const [value, setValue] = useState(new Date());
@@ -55,6 +57,9 @@ function App() {
                 path='/planning'
                 element={<Planning currentDay={currentDay} />}
               ></Route>
+              <Route path='/parametres' element={<PrivateRoute />}>
+                <Route path='/parametres' element={<Params />}></Route>
+              </Route>
               <Route path='*' element={<NoMatch />}></Route>
             </Routes>
           </main>

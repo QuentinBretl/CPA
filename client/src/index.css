@@ -103,9 +103,11 @@ main{
 
 .heading{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding:0 15px;
   height: 50px;
+  font-size: large;
 }
 
 .activities{

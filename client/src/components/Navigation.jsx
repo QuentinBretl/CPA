@@ -7,7 +7,14 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { getDoc, doc, collection, query, where, getDocs } from 'firebase/firestore';
+import {
+  getDoc,
+  doc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore';
 import { db } from '../firebase.config';
 import logoSVG from '../assets/logo.svg';
 
@@ -19,30 +26,39 @@ function Navigation() {
 
   const [login, setLogin] = useState(false);
   const [user, setUser] = useState(null);
-  const [name, setName] = useState("")
+  const [name, setName] = useState('');
 
-  const auth = getAuth();
+  let auth = getAuth();
   useEffect(() => {
+    const getName = async () => {
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('uid', '==', auth.currentUser.uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setName(doc.data().name);
+      });
+    };
+    auth = getAuth();
+    if (auth.currentUser) {
+      setUser(true);
+      console.log(auth.currentUser);
+      getName();
+    }
+
     if (login) {
       setUser(auth.currentUser);
-      
-      const getName = async () => {
-        const usersRef = collection(db, 'users')
-        const q = query(usersRef, where("uid", "==", auth.currentUser.uid))
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-        setName(doc.data().name);
-      })
 
-      
+      getName();
     }
-    getName();
-  }
-  }, [login]);
+  }, [login, auth.currentUser]);
 
   const { username, password } = formData;
 
   const navigate = useNavigate();
+
+  const onLogout = () => {
+    auth.signOut();
+  };
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -67,18 +83,19 @@ function Navigation() {
         setLogin(true);
         navigate('/');
       }
-
-
-
     } catch (error) {
       toast.error('Identifiant et/ou mot de passe incorrecte(s) !');
     }
   };
 
-  
   return user ? (
     <>
-      <div className='login'>Bienvenue {name}.</div>
+      <div className='login'>
+        <p>Bienvenue {name}.</p>
+        <button type='button' className='log-out' onClick={onLogout}>
+          Déconnexion
+        </button>
+      </div>
       <img className='logo' src={logoSVG} alt='logo' />
     </>
   ) : (
