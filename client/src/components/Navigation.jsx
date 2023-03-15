@@ -58,6 +58,7 @@ function Navigation() {
 
   const onLogout = () => {
     auth.signOut();
+    navigate('/');
   };
 
   const onChange = (e) => {

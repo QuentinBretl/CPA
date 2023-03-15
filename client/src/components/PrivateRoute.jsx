@@ -8,12 +8,9 @@ const PrivateRoute = () => {
   const { loggedIn, checkingStatus } = useAuthStatus();
   if (checkingStatus) {
     return <h3>Chargement...</h3>;
-  }
-  const ToastError = () => {
-    toast.error('Connectez-vous pour effecter cette action');
   };
 
-  return loggedIn ? <Outlet /> : <Navigate to='/' />;
+  return loggedIn ? <Outlet /> : <Navigate to='/'/>;
 };
 
 export default PrivateRoute;

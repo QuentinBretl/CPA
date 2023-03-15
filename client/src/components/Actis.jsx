@@ -3,20 +3,22 @@ import { Link } from 'react-router-dom';
 import Escalade from '../assets/escalade.svg';
 import Paddle from '../assets/paddle.svg';
 import Tal from '../assets/tal.svg';
+import Cirque from '../assets/cirque.svg'
+import Kayak from '../assets/kayak.svg'
 
 function Actis({ formattedDate }) {
   return (
     <div className='activities'>
       <h1 className='activities-title'>Activités</h1>
       <div className='list'>
-        <article>
+      <article>
           <h3>KAYAK</h3>
           <Link
             className='link-acti'
             to={`/planning?acti=kayak&date=${formattedDate}`}
           >
             <div className='activity' id='kayak'>
-              <img id='img-kayak' src={Escalade} alt='kayak' />
+              <img id='img-pah' src={Kayak} alt='kayak' />
             </div>
           </Link>
           <p>
@@ -72,7 +74,7 @@ function Actis({ formattedDate }) {
             to={`/planning?acti=cirque&date=${formattedDate}`}
           >
             <div className='activity' id='cirque'>
-              <img id='img-cirque' src={Escalade} alt='cirque' />
+              <img id='img-cirque' src={Cirque} alt='cirque' />
             </div>
           </Link>
           <p>
