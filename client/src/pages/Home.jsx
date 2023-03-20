@@ -28,7 +28,7 @@ const Home = ({ currentDay, formattedDate }) => {
             </Link>
           </h3>
         </div>
-        <Actis formattedDate={formattedDate} />
+        <Actis formattedDate={formattedDate} currentDay={currentDay} />
       </div>
     </section>
   );

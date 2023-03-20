@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { FaPlus, FaTimes } from 'react-icons/fa';
+import Select from 'react-select'
+import { FaPlus, FaTimes, FaUserPlus } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import {
   collection,
@@ -21,17 +22,21 @@ function TableResa({ creneau }) {
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const [showForm, setShowForm] = useState(false);
+  const [pah, setPah] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: ''
   });
 
-  const { name, email } = formData;
+  const { name, email, phone } = formData;
 
   const useShowForm = () => {
     setShowForm(!showForm);
     console.log(showForm);
   };
+
+  
 
   const onChange = () => {};
 
@@ -44,8 +49,42 @@ function TableResa({ creneau }) {
     }
   };
 
+  const optionsAdultes = [
+    {value: 0, label: "0"},
+    {value: 1, label: "1"},
+    {value: 2, label: "2"},
+    {value: 3, label: "3"},
+    {value: 4, label: "4"},
+    {value: 5, label: "5"},
+    {value: 6, label: "6"},
+  ];
+
+  const optionsEnfants36 = [
+    {value: 0, label: "0"},
+    {value: 1, label: "1"},
+    {value: 2, label: "2"},
+    {value: 3, label: "3"},
+    {value: 4, label: "4"},
+    {value: 5, label: "5"},
+    {value: 6, label: "6"},
+  ];
+
+  const optionsEnfants715 = [
+    {value: 0, label: "0"},
+    {value: 1, label: "1"},
+    {value: 2, label: "2"},
+    {value: 3, label: "3"},
+    {value: 4, label: "4"},
+    {value: 5, label: "5"},
+    {value: 6, label: "6"},
+  ]
+
   //Fetch DB
   useEffect(() => {
+    if (searchParams.get('acti') === 'pah'){
+      setPah(true)
+      console.log(pah)
+    }
     const fetchResas = async () => {
       try {
         const resasRef = collection(db, 'resas');
@@ -76,6 +115,8 @@ function TableResa({ creneau }) {
     console.log(resas);
   }, []);
 
+  
+
   return (
     <div className='table-container'>
       <div className='options'>
@@ -89,7 +130,7 @@ function TableResa({ creneau }) {
         </button>
       </div>
       {loading ? (
-        <h1></h1>
+        <h1> </h1>
       ) : resas && resas.length > 0 ? (
         <table>
           <thead>
@@ -97,9 +138,9 @@ function TableResa({ creneau }) {
               <th>Nom</th>
               <th>Mail</th>
               <th>Téléphone</th>
-              <th>Adultes (16+ ans)</th>
-              <th>Enfants (3-6 ans)</th>
-              <th>Enfants (7-15 ans)</th>
+              <th>16+ ans</th>
+              <th>3-6 ans</th>
+              <th>7-15 ans</th>
               <th>Prix</th>
               <th>Actions</th>
               <th>Créée par</th>
@@ -126,7 +167,6 @@ function TableResa({ creneau }) {
       {showForm && (
         <div className='table'>
           <form className='tr'>
-            <span className='td'>
               <input
                 type='text'
                 className='nameInput'
@@ -135,8 +175,6 @@ function TableResa({ creneau }) {
                 value={name}
                 onChange={onChange}
               />
-            </span>
-            <span className='td'>
               <input
                 type='email'
                 className='emailInput'
@@ -145,7 +183,22 @@ function TableResa({ creneau }) {
                 value={email}
                 onChange={onChange}
               />
-            </span>
+                <input
+                type='text'
+                className='telInput'
+                placeholder='Téléphone'
+                id='tel'
+                value={phone}
+                onChange={onChange}
+              />
+              <div className='select'><Select options={optionsAdultes} placeholder="Adultes"/></div>
+              {pah && (<div className='select'><Select options={optionsEnfants36} placeholder="3-6 ans"/></div>)}
+              
+              <div className='select'><Select options={optionsEnfants715} placeholder="7-15 ans"/></div>
+              <button className='send-data'>
+                <FaUserPlus />
+              </button>
+             
           </form>
         </div>
       )}

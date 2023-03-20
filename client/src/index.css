@@ -306,3 +306,33 @@ th, td{
 .form-resa *{
   font-size: 12px;
 }
+
+.table{
+  display: flex;
+}
+
+.tr{
+  display: flex;
+}
+
+.select {
+  width: 130px;
+}
+
+.send-data{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #b1d1a9;
+  color: #fff;
+  padding: 8px;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  transition: background-color 100ms ease 50ms
+}
+
+.send-data:hover{
+  cursor: pointer;
+  background-color: #057cc4;
+}

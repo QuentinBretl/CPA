@@ -1,16 +1,75 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import Escalade from '../assets/escalade.svg';
 import Paddle from '../assets/paddle.svg';
 import Tal from '../assets/tal.svg';
 import Cirque from '../assets/cirque.svg';
 import Kayak from '../assets/kayak.svg';
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
+import { db } from '../firebase.config';
+import { toast } from 'react-toastify';
 
-function Actis({ formattedDate }) {
+function Actis({ formattedDate, currentDay }) {
+  const [resas, setResas] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [actis, setActis] = useState(null)
+  const [day, setDay] = useState(currentDay.replace(/ .*/,''));
+  
+
+  useEffect(() => {
+  
+    const fetchActis = async () => {
+      try {
+        const resasRef = collection(db, 'actis');
+        const q = query(
+          resasRef,
+          where('acti', '==', "paddle")
+        );
+        const querySnap = await getDocs(q);
+
+        const actisTemp = [];
+
+        querySnap.forEach((doc) => {
+          return actisTemp.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+
+        setActis(actisTemp);
+        setLoading(false);
+      } catch (error) {
+        toast.error('Impossible de charger les données...');
+        console.log(error)
+      }
+    };
+    fetchActis();
+    if(actis){
+      setDay(currentDay.replace(/ .*/,''))
+      actis.forEach((acti)=>{
+        let objects = Object.keys(acti.data.jours)
+        let filteredDay = objects.filter((jour) => jour === day )
+      console.log(day);
+      })
+      
+    }
+  }, [loading]);
+
+  const getActiDays = async () =>{
+   await actis;
+   console.log(actis)
+  }
+
   return (
+   
     <div className='activities'>
       <h1 className='activities-title'>Activités</h1>
-      <div className='list'>
+      {loading ? <h1> </h1> : ( <div className='list'>
         <article>
           <h3>KAYAK</h3>
           <Link
@@ -95,7 +154,8 @@ function Actis({ formattedDate }) {
             Places restantes: <span>12/12</span>
           </p>
         </article>
-      </div>
+        </div>)}
+     
     </div>
   );
 }
