@@ -127,9 +127,6 @@ function Navigation() {
             />
           </label>
           <br />
-          <Link className='forgotPasswordLink' to='/mot-de-passe-oublie'>
-            Mot de passe oublié ?
-          </Link>
           <input className='input-send' type='submit' value='Connexion' />
         </form>
       </div>
