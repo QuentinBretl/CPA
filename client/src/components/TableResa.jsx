@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Select from 'react-select'
 import { FaPlus, FaTimes, FaUserPlus } from 'react-icons/fa';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import {
   collection,
   getDocs,
@@ -30,13 +30,6 @@ function TableResa({ creneau }) {
   });
 
   const { name, email, phone } = formData;
-
-  const useShowForm = () => {
-    setShowForm(!showForm);
-    console.log(showForm);
-  };
-
-  
 
   const onChange = () => {};
 
@@ -120,10 +113,12 @@ function TableResa({ creneau }) {
   return (
     <div className='table-container'>
       <div className='options'>
-        <button className='add' onClick={useShowForm}>
+        <Link to={`/creer-reservation?acti=${searchParams.get('acti')}&date=${searchParams.get('date')}`} state={{creneau: creneau}} >
+        <button className='add'>
           <FaPlus className='add-icon' />
           <h3>Ajouter</h3>
         </button>
+        </Link>
         <button className='remove-slot' onClick={onClickRemoveSlot}>
           <FaTimes className='remove-slot-icon' />
           <h3>Annuler</h3>

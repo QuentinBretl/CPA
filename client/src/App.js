@@ -12,6 +12,7 @@ import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Planning from './pages/Planning';
 import Params from './pages/Params';
+import CreerReservation from './pages/CreerReservation';
 
 function App() {
   const [value, setValue] = useState(new Date());
@@ -56,6 +57,10 @@ function App() {
               <Route
                 path='/planning'
                 element={<Planning currentDay={currentDay} />}
+              ></Route>
+               <Route
+                path='/creer-reservation'
+                element={<CreerReservation currentDay={currentDay} />}
               ></Route>
               <Route path='/parametres' element={<PrivateRoute />}>
                 <Route path='/parametres' element={<Params />}></Route>
