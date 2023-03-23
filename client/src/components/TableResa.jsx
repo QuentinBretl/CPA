@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import Select from 'react-select'
+import Select from 'react-select';
 import { FaPlus, FaTimes, FaUserPlus } from 'react-icons/fa';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import {
@@ -22,11 +22,11 @@ function TableResa({ creneau }) {
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const [showForm, setShowForm] = useState(false);
-  const [pah, setPah] = useState(false)
+  const [pah, setPah] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
   });
 
   const { name, email, phone } = formData;
@@ -42,41 +42,11 @@ function TableResa({ creneau }) {
     }
   };
 
-  const optionsAdultes = [
-    {value: 0, label: "0"},
-    {value: 1, label: "1"},
-    {value: 2, label: "2"},
-    {value: 3, label: "3"},
-    {value: 4, label: "4"},
-    {value: 5, label: "5"},
-    {value: 6, label: "6"},
-  ];
-
-  const optionsEnfants36 = [
-    {value: 0, label: "0"},
-    {value: 1, label: "1"},
-    {value: 2, label: "2"},
-    {value: 3, label: "3"},
-    {value: 4, label: "4"},
-    {value: 5, label: "5"},
-    {value: 6, label: "6"},
-  ];
-
-  const optionsEnfants715 = [
-    {value: 0, label: "0"},
-    {value: 1, label: "1"},
-    {value: 2, label: "2"},
-    {value: 3, label: "3"},
-    {value: 4, label: "4"},
-    {value: 5, label: "5"},
-    {value: 6, label: "6"},
-  ]
-
   //Fetch DB
   useEffect(() => {
-    if (searchParams.get('acti') === 'pah'){
-      setPah(true)
-      console.log(pah)
+    if (searchParams.get('acti') === 'pah') {
+      setPah(true);
+      console.log(pah);
     }
     const fetchResas = async () => {
       try {
@@ -108,16 +78,20 @@ function TableResa({ creneau }) {
     console.log(resas);
   }, []);
 
-  
-
   return (
     <div className='table-container'>
       <div className='options'>
-        <Link to={`/creer-reservation?acti=${searchParams.get('acti')}&date=${searchParams.get('date')}`} state={{creneau: creneau}} >
-        <button className='add'>
-          <FaPlus className='add-icon' />
-          <h3>Ajouter</h3>
-        </button>
+        <Link
+          className='add-button'
+          to={`/creer-reservation?acti=${searchParams.get(
+            'acti'
+          )}&date=${searchParams.get('date')}`}
+          state={{ creneau: creneau }}
+        >
+          <button className='add'>
+            <FaPlus className='add-icon' />
+            <h3>Ajouter</h3>
+          </button>
         </Link>
         <button className='remove-slot' onClick={onClickRemoveSlot}>
           <FaTimes className='remove-slot-icon' />
@@ -134,8 +108,8 @@ function TableResa({ creneau }) {
               <th>Mail</th>
               <th>Téléphone</th>
               <th>16+ ans</th>
+              <th>7 - 15 ans</th>
               <th>3-6 ans</th>
-              <th>7-15 ans</th>
               <th>Prix</th>
               <th>Actions</th>
               <th>Créée par</th>
@@ -158,44 +132,6 @@ function TableResa({ creneau }) {
         </table>
       ) : (
         <h1>Pas de réservations</h1>
-      )}
-      {showForm && (
-        <div className='table'>
-          <form className='tr'>
-              <input
-                type='text'
-                className='nameInput'
-                placeholder='Nom'
-                id='name'
-                value={name}
-                onChange={onChange}
-              />
-              <input
-                type='email'
-                className='emailInput'
-                placeholder='Email'
-                id='email'
-                value={email}
-                onChange={onChange}
-              />
-                <input
-                type='text'
-                className='telInput'
-                placeholder='Téléphone'
-                id='tel'
-                value={phone}
-                onChange={onChange}
-              />
-              <div className='select'><Select options={optionsAdultes} placeholder="Adultes"/></div>
-              {pah && (<div className='select'><Select options={optionsEnfants36} placeholder="3-6 ans"/></div>)}
-              
-              <div className='select'><Select options={optionsEnfants715} placeholder="7-15 ans"/></div>
-              <button className='send-data'>
-                <FaUserPlus />
-              </button>
-             
-          </form>
-        </div>
       )}
     </div>
   );
