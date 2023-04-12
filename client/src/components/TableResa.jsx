@@ -16,12 +16,14 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import { useAuthStatus } from '../hooks/useAuthStatus';
+import { useActisInfos } from '../hooks/useActisInfos';
 
 function TableResa({ creneau }) {
-  const [dbData, setDbData] = useState();
+  const [currentActi, setCurrentActi] = useState(null);
   const [annuls, setAnnuls] = useState(null);
   const [resas, setResas] = useState(null);
   const { loggedIn, checkingStatus } = useAuthStatus();
+  const {data} = useActisInfos()
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const [showForm, setShowForm] = useState(false);
@@ -144,10 +146,19 @@ function TableResa({ creneau }) {
     fetchResas();
     fetchAnnulations();
     console.log(resas);
+    if(data){
+      setCurrentActi(data)
+    }
   }, []);
 
   return (
     <div className='table-container'>
+      {data && data.length > 0 && (
+        <h1>{data.map((acti)=>(
+          acti.data.acti
+        ))}</h1>
+        )}
+      
       <div className='options'>
         <Link
           onClick={onClick}
