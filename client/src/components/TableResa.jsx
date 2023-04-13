@@ -17,6 +17,9 @@ import {
 import { db } from '../firebase.config';
 import { useAuthStatus } from '../hooks/useAuthStatus';
 import { useActisInfos } from '../hooks/useActisInfos';
+import moment from 'moment/moment';
+import 'moment/locale/fr';
+
 
 function TableResa({ creneau }) {
   const [currentActi, setCurrentActi] = useState(null);
@@ -33,6 +36,7 @@ function TableResa({ creneau }) {
     date: searchParams.get('date'),
     creneau: creneau,
   });
+  const [day, setDay] = useState(null)
 
   const navigate = useNavigate();
 
@@ -46,7 +50,7 @@ function TableResa({ creneau }) {
   const onClickRemoveSlot = async (e) => {
     if (!loggedIn) {
       e.preventDefault();
-      toast.error('Connectez-vous pour annuler un  créneau');
+      toast.error('Connectez-vous pour annuler un créneau');
     } else {
       e.preventDefault();
       let confirmation = window.confirm(
@@ -80,12 +84,33 @@ function TableResa({ creneau }) {
     }
   };
 
+  const getDayDate = () => {
+    const dateString = searchParams.get('date');
+    const dateObj = moment(dateString, 'DD-MM-YYYY');
+    const dayName = dateObj.format('dddd');
+    setDay(dayName)
+  }
+
+
   //Fetch DB
   useEffect(() => {
     if (searchParams.get('acti') === 'pah') {
       setPah(true);
       console.log(pah);
     }
+
+    getDayDate()
+    const parseObject = async () => {
+      
+      if (day){
+        data.map((acti)=>{
+          console.log(acti.data.jours)
+        })
+      } else {
+        console.log("no day")
+      }
+    }
+    parseObject()
 
     // Req à la bdd les annulations
     const fetchAnnulations = async () => {
@@ -148,6 +173,7 @@ function TableResa({ creneau }) {
     console.log(resas);
     if(data){
       setCurrentActi(data)
+      console.log(data)
     }
   }, []);
 
