@@ -36,11 +36,14 @@ function Navigation() {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         setName(doc.data().name);
+        updateProfile(auth.currentUser, {
+          displayName: doc.data().name,
+        })
       });
     };
     auth = getAuth();
     if (auth.currentUser) {
-      setUser(true);
+      setLogin(true);
       console.log(auth.currentUser);
       getName();
     }

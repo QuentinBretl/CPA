@@ -19,6 +19,7 @@ import { useAuthStatus } from '../hooks/useAuthStatus';
 import { useActisInfos } from '../hooks/useActisInfos';
 import moment from 'moment/moment';
 import 'moment/locale/fr';
+import Paiement from './Paiement';
 
 
 function TableResa({ creneau }) {
@@ -36,6 +37,7 @@ function TableResa({ creneau }) {
     date: searchParams.get('date'),
     creneau: creneau,
   });
+  const [nbAdultes, setNbAdultes] = useState(0)
   const [day, setDay] = useState(null)
 
   const navigate = useNavigate();
@@ -171,10 +173,7 @@ function TableResa({ creneau }) {
     fetchResas();
     fetchAnnulations();
     console.log(resas);
-    if(data){
-      setCurrentActi(data)
-      console.log(data)
-    }
+  
   }, []);
 
   return (
@@ -229,6 +228,7 @@ function TableResa({ creneau }) {
               <th>Actions</th>
               <th>Créée par</th>
               <th>A</th>
+              <th className='paiement'>Reglé par ?</th>
             </tr>
           </thead>
           <tbody>
@@ -240,8 +240,12 @@ function TableResa({ creneau }) {
                 <td>{resa.data.nb_adultes}</td>
                 <td>{resa.data.nb_enfants}</td>
                 <td>{resa.data.nb_bambins}</td>
-                <td>{resa.data.prix}</td>
+                <td>{resa.data.prix + " €"}</td>
                 <td></td>
+                <td>{resa.data.auteur}</td>
+                <td></td>
+                <td><Paiement /></td>
+                
               </tr>
             ))}
           </tbody>

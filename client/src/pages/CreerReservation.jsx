@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 function CreerReservation({ currentDay }) {
+  const auth = getAuth();
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -23,12 +24,12 @@ function CreerReservation({ currentDay }) {
     nb_enfants: 0,
     nb_bambins: 0,
     prix: 0,
-    auteur: '',
+    auteur: auth.currentUser.displayName,
   });
 
   const { nom, mail, tel, nb_adultes, nb_enfants, nb_bambins, prix } = formData;
 
-  const auth = getAuth();
+  
   const navigate = useNavigate();
   const isMounted = useRef(true);
 

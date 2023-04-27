@@ -325,6 +325,10 @@ th{
   border: 2px solid white;
 }
 
+.paiement{
+  background-color: #9f1717;
+}
+
 .form-resa{
   display: flex;
   gap: 5px;
